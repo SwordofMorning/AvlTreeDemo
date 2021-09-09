@@ -1,5 +1,11 @@
 #include "Avl.h"
 
+/* ===== Function 00 : Constructor ===== */
+template<typename elemType>
+Avl<elemType>::Avl()
+{
+}
+
 /* ===== Function 01 : 查找最小值 ===== */
 template<typename elemType>
 Avl<elemType>::Node<elemType>* Avl<elemType>::FindMin(Node<elemType>* node)
@@ -78,6 +84,8 @@ void Avl<elemType>::Insert(const elemType& ele, Node<elemType>*& node)
 	{
 		this->Insert(ele, node->right);
 	}
+
+	this->Balance(node);
 }
 
 /* ===== Function 05 : 按元素删除 ===== */
@@ -113,4 +121,101 @@ void Avl<elemType>::Remove_val(const elemType& ele, Node<elemType>*& node)
 			node->right;
 		delete oldOne;
 	}
+
+	Balance(node);
+}
+
+/* ===== Function 06 : 高度计算 ===== */
+template<typename elemType>
+int Avl<elemType>::Height(Node<elemType>* node)
+{
+	// 这里从0计数，即空树为0；常见的也有使用-1
+	return node ?
+		node->height :
+		0;
+}
+
+/* ===== Function 07 : LL ===== */
+template<typename elemType>
+void Avl<elemType>::LL(Node<elemType>*& k2)
+{
+	Node<elemType>* k1 = k2->left;
+
+	// 交换节点
+	k2->left = k1->right;
+	k1->right = k2;
+
+	// 高度更新
+	k2->height = std::max(Height(k2->left), Height(k2->right)) + 1;
+	k1->height = std::max(Height(k1->left), k2->height) + 1;
+
+	k2 = k1;
+}
+
+/* ===== Function 08 : RR ===== */
+template<typename elemType>
+void Avl<elemType>::RR(Node<elemType>*& k2)
+{
+	Node<elemType>* k1 = k2->right;
+
+	// 交换节点
+	k2->right = k1->left;
+	k1->left = k2;
+
+	// 高度更新
+	k2->height = std::max(Height(k2->left), Height(k2->right)) + 1;
+	k1->height = std::max(k2->height, Height(k1->right)) + 1;
+
+	k2 = k1;
+}
+
+/* ===== Function 09 : LR ===== */
+template<typename elemType>
+void Avl<elemType>::LR(Node<elemType>*& k3)
+{
+	RR(k3->left);
+	LL(k3);
+}
+
+/* ===== Function 09 : RL ===== */
+template<typename elemType>
+void Avl<elemType>::RL(Node<elemType>*& k3)
+{
+	LL(k3->right);
+	RR(k3);
+}
+
+/* ===== Function 11 : 平衡 ===== */
+template<typename elemType>
+void Avl<elemType>::Balance(Node<elemType>*& node)
+{
+	if (!node)	return;
+
+	// 左高
+	if (Height(node->left) - Height(node->right) >= 2)
+	{
+		if (Height(node->left->left) >= Height(node->left->right))
+		{
+			LL(node);
+		}
+		else
+		{
+			LR(node);
+		}
+	}
+	// 右高
+	else if (Height(node->right) - Height(node->left) >= 2)
+	{
+		if (Height(node->right->right) >= Height(node->right->right))
+		{
+			RR(node);
+		}
+		else
+		{
+			RL(node);
+		}
+	}
+
+	// 更新高度
+	node->height = std::max(Height(node->left), Height(node->right)) + 1;
 }

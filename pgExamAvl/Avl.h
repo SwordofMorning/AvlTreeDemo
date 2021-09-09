@@ -41,10 +41,39 @@ private:
 
 	/* ===== Function 05 : 按元素删除 ===== */
 	void Remove_val(const elemType& ele, Node<elemType>*& node);
+
+	/* ===== Function 06 : 高度计算 ===== */
+	int Height(Node<elemType>* node);
+
+	/*
+		单旋
+		Single Left Rotate
+		Single Right Rotate
+	*/
+
+	/* ===== Function 07 : LL ===== */
+	void LL(Node<elemType>*& k2);
 	
+	/* ===== Function 08 : RR ===== */
+	void RR(Node<elemType>*& k2);
+
+	/*
+		双旋
+		Double Left Rotate
+		Double Right Rotate
+	*/
+
+	/* ===== Function 09 : LR ===== */
+	void LR(Node<elemType>*& k3);
+
+	/* ===== Function 10 : RL ===== */
+	void RL(Node<elemType>*& k3);
+
+	/* ===== Function 11 : 平衡 ===== */
+	void Balance(Node<elemType>*& node);
 public:
 	/* ===== Function 00 : Constructor ===== */
-	BinaryTree();
+	Avl();
 
 	/* ===== Function 03 : 按值查找 ===== */
 	Node<elemType>* FindVal(const elemType& ele);
