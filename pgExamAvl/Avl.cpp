@@ -137,52 +137,52 @@ int Avl<elemType>::Height(Node<elemType>* node)
 
 /* ===== Function 07 : LL ===== */
 template<typename elemType>
-void Avl<elemType>::LL(Node<elemType>*& k2)
+void Avl<elemType>::LL(Node<elemType>*& violate)
 {
-	Node<elemType>* k1 = k2->left;
+	Node<elemType>* violateLeft = violate->left;
 
 	// 交换节点
-	k2->left = k1->right;
-	k1->right = k2;
+	violate->left = violateLeft->right;
+	violateLeft->right = violate;
 
 	// 高度更新
-	k2->height = std::max(Height(k2->left), Height(k2->right)) + 1;
-	k1->height = std::max(Height(k1->left), k2->height) + 1;
+	violate->height = std::max(Height(violate->left), Height(violate->right)) + 1;
+	violateLeft->height = std::max(Height(violateLeft->left), violate->height) + 1;
 
-	k2 = k1;
+	violate = violateLeft;
 }
 
 /* ===== Function 08 : RR ===== */
 template<typename elemType>
-void Avl<elemType>::RR(Node<elemType>*& k2)
+void Avl<elemType>::RR(Node<elemType>*& violate)
 {
-	Node<elemType>* k1 = k2->right;
+	Node<elemType>* violateRight = violate->right;
 
 	// 交换节点
-	k2->right = k1->left;
-	k1->left = k2;
+	violate->right = violateRight->left;
+	violateRight->left = violate;
 
 	// 高度更新
-	k2->height = std::max(Height(k2->left), Height(k2->right)) + 1;
-	k1->height = std::max(k2->height, Height(k1->right)) + 1;
+	violate->height = std::max(Height(violate->left), Height(violate->right)) + 1;
+	violateRight->height = std::max(violate->height, Height(violateRight->right)) + 1;
 
-	k2 = k1;
+	violate = violateRight;
 }
 
 /* ===== Function 09 : LR ===== */
 template<typename elemType>
-void Avl<elemType>::LR(Node<elemType>*& k3)
+void Avl<elemType>::LR(Node<elemType>*& violate)
 {
-	RR(k3->left);
-	LL(k3);
+	RR(violate->left);
+	LL(violate);
 }
 
 /* ===== Function 09 : RL ===== */
 template<typename elemType>
-void Avl<elemType>::RL(Node<elemType>*& k3)
+void Avl<elemType>::RL(Node<elemType>*& violate)
 {
-	LL(k3->right);
-	RR(k3);
+	LL(violate->right);
+	RR(violate);
 }
 
 /* ===== Function 11 : 平衡 ===== */

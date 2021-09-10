@@ -52,10 +52,10 @@ private:
 	*/
 
 	/* ===== Function 07 : LL ===== */
-	void LL(Node<elemType>*& k2);
+	void LL(Node<elemType>*& violate);
 	
 	/* ===== Function 08 : RR ===== */
-	void RR(Node<elemType>*& k2);
+	void RR(Node<elemType>*& violate);
 
 	/*
 		Ë«Ðý
